@@ -1,18 +1,16 @@
 package com.redes.redes.dto;
 
-public class RedesDTO {
+public class RedesSalidaDTO {
 
     private String nombre;
     private String contrasena;
-    private String seguridad;
 
-    public RedesDTO(String nombre, String contrasena, String seguridad) {
+    public RedesSalidaDTO(String nombre, String contrasena) {
         this.nombre = nombre;
         this.contrasena = contrasena;
-        this.seguridad = seguridad;
     }
 
-    public RedesDTO() {
+    public RedesSalidaDTO() {
     }
 
     public String getNombre() {
@@ -29,13 +27,5 @@ public class RedesDTO {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
-    }
-
-    public String getSeguridad() {
-        return seguridad;
-    }
-
-    public void setSeguridad(String seguridad) {
-        this.seguridad = seguridad;
     }
 }

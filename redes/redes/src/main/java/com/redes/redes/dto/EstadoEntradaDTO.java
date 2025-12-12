@@ -1,19 +1,16 @@
 package com.redes.redes.dto;
 
-import java.sql.Timestamp;
-
-public class DatosRegistroDTO {
+public class EstadoEntradaDTO {
 
     private String nombreRed;
     private Estados estado;
-    static Timestamp fechaHora;
 
-    public DatosRegistroDTO(String nombreRed, Estados estado) {
+    public EstadoEntradaDTO(String nombreRed, Estados estado) {
         this.nombreRed = nombreRed;
         this.estado = estado;
     }
 
-    public DatosRegistroDTO() {
+    public EstadoEntradaDTO() {
     }
 
     public String getNombreRed() {
@@ -32,11 +29,5 @@ public class DatosRegistroDTO {
         this.estado = estado;
     }
 
-    public static Timestamp getFechaHora() {
-        return fechaHora;
-    }
 
-    public static void setFechaHora(Timestamp fechaHora) {
-        DatosRegistroDTO.fechaHora = fechaHora;
-    }
 }
