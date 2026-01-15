@@ -67,28 +67,66 @@ export default {
   },
   mounted() {
     this.cargarDatos();
-    // Refresco automático cada 10 segundos
-    setInterval(this.cargarDatos, 10000);
+    // Refresco automático cada 20 segundos
+    setInterval(this.cargarDatos, 20000);
   }
 };
 </script>
 
 <style scoped>
     h1 {
-    color: #2c3e50; /* Azul oscuro */
+    color: #2c3e50; 
     text-align: center;
     }
-    .container { padding: 20px; max-width: 800px; margin: 0 auto; }
-    .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .btn-refresh { background-color: #42b983; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;}
+    .container { 
+      padding: 20px; 
+      max-width: 800px; 
+      margin: 0 auto; 
+    }
+    .controls { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 20px; 
+    }
+    .btn-refresh { 
+      background-color: #42b983; 
+      color: white; 
+      border: none; 
+      padding: 10px 20px; 
+      cursor: pointer; 
+      border-radius: 5px;
+    }
 
     /* Estilos de la tabla */
-    .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .data-table th, .data-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-    .data-table th { background-color: #f2f2f2; }
+    .data-table { 
+      width: 100%; 
+      border-collapse: 
+      collapse; 
+      margin-top: 10px; 
+    }
+    .data-table th, .data-table td { 
+      border: 1px solid #ddd; 
+      padding: 12px; 
+      text-align: left; }
+    .data-table th { 
+      background-color: #f2f2f2; 
+    }
 
     /* Colores de estado */
-    .status-ok { color: green; font-weight: bold; background-color: #e6fffa; }
-    .status-warn { color: orange; font-weight: bold; background-color: #fffaf0; }
-    .status-error { color: red; font-weight: bold; background-color: #fff5f5; }
+    .status-ok { 
+      color: green; 
+      font-weight: bold; 
+      background-color: #e6fffa; 
+    }
+    .status-warn { 
+      color: orange; 
+      font-weight: bold; 
+      background-color: #fffaf0; 
+    }
+    .status-error { 
+      color: red; 
+      font-weight: bold; 
+      background-color: #fff5f5; 
+    }
 </style>
