@@ -1,53 +1,52 @@
 package com.redes.redes.controllers;
 
 import com.redes.redes.dto.RedesEntradaDTO;
-import com.redes.redes.dto.RedesSalidaDTO;
+import com.redes.redes.models.Red;
+import com.redes.redes.repositories.RedRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * Controlador para gestionar las redes
- * @Author Miguel y Juan Carlos
- * @version 1.0
- * @since 2025-12-12
- */
 @RestController
 public class RedesController {
 
-    static ArrayList<RedesSalidaDTO> datosRedes=new ArrayList<>();
+    private final RedRepository redRepository;
 
-    {
-        datosRedes.add(new RedesSalidaDTO("Andared_Corporativo", "Nose"));
+    public RedesController(RedRepository redRepository) {
+        this.redRepository = redRepository;
     }
 
     /**
-     * Registro de una nueva red
-     * @param redes redes a registrar
-     * @return ResponseEntity<String>
+     * Alta de red
+     * Endpoint: POST /configuracion-redes
      */
-    @PostMapping("/registroRed")
-    public ResponseEntity<String> registroRed(@RequestBody RedesEntradaDTO redes) {
-        for (RedesSalidaDTO nuevaRed : datosRedes) {
-            if (nuevaRed.getNombre().equals(redes.getNombre())) {
-                return ResponseEntity.badRequest().body("La red ya existe");
-            }
+    @PostMapping("/configuracion-redes")
+    public ResponseEntity<String> registroRed(@RequestBody RedesEntradaDTO redesDto) {
+        // Validar si existe por SSID
+        Optional<Red> existente = redRepository.findBySsid(redesDto.getNombre());
+        if (existente.isPresent()) {
+            return ResponseEntity.badRequest().body("La red ya existe");
         }
-        RedesSalidaDTO salida = new RedesSalidaDTO(redes.getNombre(), redes.getContrasena());
-        datosRedes.add(salida);
+
+        Red nuevaRed = new Red(
+                redesDto.getNombre(),
+                redesDto.getUsuario(),
+                redesDto.getContrasena(),
+                redesDto.getSeguridad()
+        );
+
+        redRepository.save(nuevaRed);
         return ResponseEntity.ok().body("Red registrada");
     }
-    /**
-     * Ver las redes registradas
-     * @return ResponseEntity<ArrayList<RedesSalidaDTO>>
-     */
-    @GetMapping("/verRedes")
-    public ResponseEntity<ArrayList<RedesSalidaDTO>> verRedes() {
-        return ResponseEntity.ok().body(datosRedes);
-    }
 
+    /**
+     * Listar objetivos
+     * Endpoint: GET /configuracion-redes
+     */
+    @GetMapping("/configuracion-redes")
+    public ResponseEntity<List<Red>> verRedes() {
+        return ResponseEntity.ok().body(redRepository.findAll());
+    }
 }

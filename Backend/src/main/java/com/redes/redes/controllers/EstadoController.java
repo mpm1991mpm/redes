@@ -1,45 +1,46 @@
 package com.redes.redes.controllers;
 
 import com.redes.redes.dto.EstadoEntradaDTO;
-import com.redes.redes.dto.EstadoSalidaDTO;
+import com.redes.redes.models.HistorialEstado;
+import com.redes.redes.repositories.HistorialRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Controlador para gestionar los estados de las redes
- * @Author Miguel y Juan Carlos
- * @version 1.0
- * @since 2025-12-12
- */
 @RestController
 public class EstadoController {
 
-    static ArrayList<EstadoSalidaDTO> datos=new ArrayList<>();
+    private final HistorialRepository historialRepository;
+
+    public EstadoController(HistorialRepository historialRepository) {
+        this.historialRepository = historialRepository;
+    }
 
     /**
-     * Registro de un nuevo estado
-     * @param datosRegistro estado a registrar
-     * @return ResponseEntity<String>
+     * Registrar prueba
+     * Endpoint: POST /registros-redes
      */
-    @PostMapping("/registroEstado")
+    @PostMapping("/registros-redes")
     public ResponseEntity<String> registroEstado(@RequestBody EstadoEntradaDTO datosRegistro) {
-        EstadoSalidaDTO salida = new EstadoSalidaDTO(datosRegistro.getNombreRed(), datosRegistro.getEstado());
-        datos.add(salida);
+
+        String textoEstado = datosRegistro.getEstado().getDescripcion();
+
+        HistorialEstado nuevoEstado = new HistorialEstado(
+                datosRegistro.getNombreRed(),
+                textoEstado
+        );
+
+        historialRepository.save(nuevoEstado);
         return ResponseEntity.ok().body("Estado registrado");
     }
 
     /**
-     * Ver los estados registrados
-     * @return ResponseEntity<ArrayList<EstadoSalidaDTO>>
+     * Consultar historial
+     * Endpoint: GET /registros-redes
      */
-    @GetMapping("/verEstado")
-    public ResponseEntity<ArrayList<EstadoSalidaDTO>> verEstado() {
-        return ResponseEntity.ok().body(datos);
+    @GetMapping("/registros-redes")
+    public ResponseEntity<List<HistorialEstado>> verEstado() {
+        return ResponseEntity.ok().body(historialRepository.findAll());
     }
-
 }
